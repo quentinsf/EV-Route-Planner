@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<!-- 
+
+    EV Route Planner - A router planner for electric cars
+
+    Copyright (C) 2014, 2015  Paul Churchley
+
+    EV Route Planner is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    EV Route Planner is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    Full details of license can be found here: http://www.gnu.org/licenses/gpl-3.0.en.html
+
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>EV Route Planner - Options</title>
+    <script src="scripts/jquery-2.1.1.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
+    <script src="scripts/dhtmlxslider.js"></script>
+    <script src="scripts/moment.js"></script>
+    <script src="scripts/Modernizer.js"></script>
+    <script src="scripts/amplify.min.js"></script>
+    <script src="scripts/options.js"></script>
+    <script src="objects/shared.js"></script>
+    <link href="styles/main.css" rel="stylesheet" />
+    <link href="styles/dhtmlxslider.css" rel="stylesheet" />
+    <script>
+        if (window.addEventListener) window.addEventListener("load", doOnLoad_options, true);
+        else window.onload = doOnLoad_options;
+
+    </script>
+
+
+    <!--[if IE]>
+    <style type="text/css">
+    /* place css fixes for all versions of IE in this conditional comment */
+    .twoColLiqLtHdr #sidebar1 { padding-top: 30px; }
+    .twoColLiqLtHdr #mainContent { zoom: 1; padding-top: 15px; }
+    /* the above proprietary zoom property gives IE the hasLayout it needs to avoid several bugs */
+    </style>
+    <![endif]-->
+</head>
+
+<body class="optionsBody">
+
+    <div id="container">
+        <div id="header">
+            <h1>EV Zone Route Planner -  Options</h1>
+            <p>Please enter your data below. the trip will be planned according to the data entered. Click "FINISHED" when finished to return to the planner.</p>
+            <!-- end #header -->
+        </div>
+        <div id="mainContent">
+            <form id="carForm">
+                <h3>Car</h3>
+
+                Make/Model:
+                <select id="car"></select><input type="button" value="Set Values" onclick="setModelData()" />
+                <br />
+                <br />
+                100% Range:<input id="range" type="text" value="" size="3" />
+                <select id="distanceUnits">
+                    <option value="Miles" selected="selected">Miles</option>
+                    <!--
+                       <option value="Km">Km</option>
+                    -->
+                </select>
+                <br />
+                Power Usage:
+                <input id="powerUse" type="text" value="" size="4" />
+                <select id="powerUnits">
+                    <option value="Miles/kWH" selected="selected">Miles/kWH</option>
+                    <!--
+                        <option value="Km/kWH">Km/kWH</option>
+                        <option value="kWH/Mile">kWH/Mile</option>
+                        <option value="Km/kWH">Km/kWH</option>option>
+                    -->
+                </select>
+                <br />
+                Charging Plugs:<br />
+                <select id="plugs" multiple="multiple" size="10"></select>
+                <br />
+                Preferred Charging:<br />
+                Slow: <input name="preferredLevel" value="slow" type="radio" />
+                Fast: <input name="preferredLevel" value="fast" type="radio" />
+                Rapid: <input name="preferredLevel" value="rapid" type="radio" checked="checked" />
+
+            </form>
+            <hr />
+
+            <form id="tripForm">
+                <h3>Trip</h3>
+                <p>
+                    Fastest/Shortest (Coming Soon!):
+                    <select id="fastestShortest">
+                        <option value="fastest" selected="selected">Fastest Route</option>
+                        <!--
+                            <option value="shortest">Shortest Route</option>
+                            <option value="minCharges">Minimum Number of Charges</option>
+                        -->
+                    </select>
+                </p>
+
+
+            </form>
+            <hr />
+
+            <form id="chargingForm">
+                <h3>Charging</h3>
+                <p>
+                    Default SOC at end of leg:
+                    <select id="SOCatEndofLeg">
+                        <option value="5">5%</option>
+                        <option value="10">10%</option>
+                        <option value="15">15%</option>
+                        <option value="20" selected="selected">20%</option>
+                        <option value="25">25%</option>
+                        <option value="30">30%</option>
+                        <option value="35">35%</option>
+                        <option value="40">40%</option>
+                        <option value="45">45%</option>
+                        <option value="50">50%</option>
+                        <option value=">50">50%</option>
+                    </select>
+                    <br />
+                    Default SOC at end of charge:
+                    <select id="SOCatEndofCharge">
+                        <option value="50">50%</option>
+                        <option value="55">55%</option>
+                        <option value="60">60%</option>
+                        <option value="65">65%</option>
+                        <option value="70">70%</option>
+                        <option value="75">75%</option>
+                        <option value="80" selected="selected">80%</option>
+                        <option value="85">85%</option>
+                        <option value="90">90%</option>
+                        <option value="95">95%</option>
+                        <option value=">100">100%</option>
+                    </select>
+                    <br />
+                    Minimum Stop Time at Charging stop:
+                    <select id="minStopTime">
+                        <option value="15">15 Mins</option>
+                        <option value="30" selected="selected">30 Mins</option>
+                        <option value="45">45 Mins</option>
+                        <option value="60">60 Mins</option>
+                    </select>
+                    <br /><br />
+                    Preferred Networks (Coming Soon!):<br />
+                    <select id="preferredNetworks" name="preferredNetworks" multiple="multiple" size="10"></select>
+                </p>
+            </form>
+            <hr />
+
+            <form id="finishedForm">
+                <input type="button" value="Finished" onclick="finished()" />
+                <input type="button" value="Reset" onclick="resetOptions()" />
+            </form>
+        </div>
+
+        <!-- This clearing element should immediately follow the #mainContent div in order to force the #container div to contain all child floats -->
+        <div class="clearfloat"></div>
+        <div id="footer">
+            <p>Version = 0.8a - Copyright 2015: Paul Churchley - All Rights Reserved</p>
+            <!-- end #footer -->
+        </div>
+        <!-- end #container -->
+    </div>
+    <input id="optionPage" type="hidden" />
+</body>
+</html>

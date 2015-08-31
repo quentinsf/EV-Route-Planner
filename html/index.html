@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<!-- 
+
+    EV Route Planner - A router planner for electric cars
+
+    Copyright (C) 2014, 2015  Paul Churchley
+
+    EV Route Planner is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    EV Route Planner is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    Full details of license can be found here: http://www.gnu.org/licenses/gpl-3.0.en.html
+
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>EV Route Planner</title>
+    <!-- data-main attribute tells require.js to load
+     scripts/main.js after require.js loads. -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script src="scripts/jquery-2.1.1.min.js"></script>
+    <script src="scripts/dhtmlxslider.js"></script>
+    <script src="scripts/moment.js"></script>
+    <script src="scripts/amplify.min.js"></script>
+    <script src="scripts/Modernizer.js"></script>
+    <script src="scripts/map1.js"></script>
+    <script src="objects/shared.js"></script>
+    <link href="styles/main.css" rel="stylesheet" />
+    <link href="styles/dhtmlxslider.css" rel="stylesheet" />
+    <script>
+        if (window.addEventListener) window.addEventListener("load", doOnLoad_map1, true);
+        else window.onload = doOnLoad_map1;
+
+        if (window.addEventListener) window.addEventListener("unload", doOnUnload_map1, true);
+        else window.onunload = doOnUnload_map1;
+    </script>
+
+
+    <!--[if IE]>
+    <style type="text/css">
+    /* place css fixes for all versions of IE in this conditional comment */
+    .twoColLiqLtHdr #sidebar1 { padding-top: 30px; }
+    .twoColLiqLtHdr #mainContent { zoom: 1; padding-top: 15px; }
+    /* the above proprietary zoom property gives IE the hasLayout it needs to avoid several bugs */
+    </style>
+    <![endif]-->
+</head>
+
+<body class="twoColLiqLtHdr">
+
+    <div id="container">
+        <div id="header">
+            <h1>EV Zone Route Planner</h1>
+            <div id="optionsDiv">
+            </div>
+            <!-- end #header -->
+        </div>
+        <!-- #sidebar1 -->
+        <div id="content">
+            <div id="sidebar1">
+                <h3>Route</h3>
+                <form id="routeForm">
+                    <table align="<center></center>">
+                        <tr><td>From:</td><td><input id="from" type="text" value="Birmingham, uk" onkeypress="setStartLocationFromText(event);" /></td></tr>
+                        <tr><td>To:</td><td><input id="to" type="text" value="Newcastle" onkeypress="setEndLocationFromText(event);" /></td></tr>
+                        <tr><td colspan="2">Starting SOC%:<input id="startingSOCPerc" type="text" value="100" size="3" onkeypress="changeStartingSOCPerc(event);" onchange="    changeStartingSOCPerc(event);" /></td></tr>
+                        <tr><td colspan="2">100% Range:<input id="range" type="text" value="70" size="3" onkeypress="changeRange(event);" onchange="changeRange(event);" />miles</td></tr>
+                        <tr>
+                            <td colspan="2">
+                                SOC% Range:<input id="percRange" type="text" value="80" size="3" onkeypress="changePercRange(event);" onchange="changePercRange(event);" />%
+                                <div id="percRangeSlider"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                Slow: <input name="chargerLevel" value="slow" type="radio" onclick="chargerLevelChanged();" />
+                                Fast: <input name="chargerLevel" value="fast" type="radio" onclick="chargerLevelChanged();" />
+                                Rapid: <input name="chargerLevel" value="rapid" type="radio" checked=checked onclick="chargerLevelChanged();" />
+                            </td>
+                        </tr>
+                        <tr><td colspan="2"><div id="connectors"></div></td></tr>
+                        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>
+                                <input id="getRouteDirections" type="button" value="Build Route" onclick='processForm("getRouteDirections");' />
+                                <input id="fineTune" type="button" value="Fine Tune" onclick='processForm("fineTune");' />
+                            </td>
+                        </tr>
+                        <tr><td>&nbsp;</td><td><input id="resetRoute" type="button" value="Reset" onclick='processForm("resetRoute");' /></td></tr>
+                        <tr><td>&nbsp;</td><td><input id="showOptions" type="button" value="Options" onclick='processForm("showOptions");' /></td></tr>
+                        <tr><td>&nbsp;</td><td><input id="autoRoute" type="button" value="Auto Route" onclick='return;' /><span style="font-size: 8pt;">(Coming Soon!)</span></td></tr>
+                    </table>
+                </form>
+                <div id="directionsDiv">
+                    <div id="totalDistance"></div>
+                    <div id="totalTravelTime"></div>
+                    <div id="totalChargingTime"></div>
+                    <div id="totalChargingKwh"></div>
+                    <div id="totalJourneyTime"></div>
+                    <div id="directionsPanel">
+                        <div id="directions"></div>
+                    </div>
+                </div>
+
+                <!-- end #sidebar1 -->
+            </div>
+            <div id="mainContent">
+                <div id="map1"></div>
+                <div id="chart_div" onmouseout="clearMouseMarker()"></div>
+                <div id="marker-tooltip"></div>
+                <div class="spinner"></div>
+                <!-- end #mainContent -->
+            </div>
+            <!-- This clearing element should immediately follow the #mainContent div in order to force the #container div to contain all child floats -->
+            <div class="clearfloat"></div>
+            <!-- end #content -->
+        </div>
+        <div id="footer">
+            <p>Version = 0.8a -  GNU GENERAL PUBLIC LICENSE Version 3</p>
+            <!-- end #footer -->
+        </div>
+        <!-- end #container -->
+    </div>
+</body>
+</html>

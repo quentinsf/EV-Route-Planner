@@ -1,0 +1,315 @@
+/**
+
+    EV Route Planner - A router planner for electric cars
+
+    Copyright (C) 2014, 2015  Paul Churchley
+
+    EV Route Planner is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    EV Route Planner is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    Full details of license can be found here: http://www.gnu.org/licenses/gpl-3.0.en.html
+
+**/
+
+body  {
+	font: 100% Verdana, Arial, Helvetica, sans-serif;
+	background: #dddddd;
+	margin: 0; /* it's good practice to zero the margin and padding of the body element to account for differing browser defaults */
+	padding: 0;
+	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
+	color: #000000;
+	height: 100%;
+	width: 100%;
+}
+
+
+.twoColLiqLtHdr #container { 
+	width: 100%;  /* this will create a container 100% of the browser width */
+	background: #dddddd;
+	margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
+	border: 1px solid #000000;
+	text-align: left; /* this overrides the text-align: center on the body element. */
+} 
+.twoColLiqLtHdr #header { 
+	background: #dddddd; 
+	padding: 10px 0;  /* this padding matches the left alignment of the elements in the divs that appear beneath it. If an image is used in the #header instead of text, you may want to remove the padding. */
+} 
+.twoColLiqLtHdr #header h1 {
+	margin: 0; /* zeroing the margin of the last element in the #header div will avoid margin collapse - an unexplainable space between divs. If the div has a border around it, this is not necessary as that also avoids the margin collapse */
+	padding: 10px 0; /* using padding instead of margin will allow you to keep the element away from the edges of the div */
+}
+
+/* Tips for sidebar1:
+1. since we are working in percentages, it's best not to use padding on the sidebar. It will be added to the width for standards compliant browsers creating an unknown actual width. 
+2. Space between the side of the div and the elements within it can be created by placing a left and right margin on those elements as seen in the ".twoColLiqLtHdr #sidebar1 p" rule.
+3. Since Explorer calculates widths after the parent element is rendered, you may occasionally run into unexplained bugs with percentage-based columns. If you need more predictable results, you may choose to change to pixel sized columns.
+*/
+.twoColLiqLtHdr #sidebar1 {
+	float: left; 
+	width: 20%; /* since this element is floated, a width must be given */
+	background: #eeeeee; /* the background color will be displayed for the length of the content in the column, but no further */
+	padding: 15px 0; /* top and bottom padding create visual space within this div  */
+}
+.twoColLiqLtHdr #sidebar1 h3, .twoColLiqLtHdr #sidebar1 p, .twoColLiqLtHdr #sidebar1 form, .twoColLiqLtHdr #sidebar1 hr, .twoColLiqLtHdr #sidebar1 #directionsDiv {
+	margin-left: 10px; /* the left and right margin should be given to every element that will be placed in the side columns */
+	/*margin-right: 10px; */
+}
+    
+/* Tips for mainContent:
+1. the space between the mainContent and sidebar1 is created with the left margin on the mainContent div.  No matter how much content the sidebar1 div contains, the column space will remain. You can remove this left margin if you want the #mainContent div's text to fill the #sidebar1 space when the content in #sidebar1 ends.
+2. to avoid float drop at a supported minimum 800 x 600 resolution, elements within the mainContent div should be 430px or smaller (this includes images).
+3. in the Internet Explorer Conditional Comment below, the zoom property is used to give the mainContent "hasLayout." This avoids several IE-specific bugs.
+*/
+.twoColLiqLtHdr #mainContent { 
+	margin: 0 20px 0 21%; /* the right margin can be given in percentages or pixels. It creates the space down the right side of the page. */
+} 
+.twoColLiqLtHdr #footer { 
+	padding: 0 10px; /* this padding matches the left alignment of the elements in the divs that appear above it. */
+	background:#DDDDDD;
+} 
+.twoColLiqLtHdr #footer p {
+	margin: 0; /* zeroing the margins of the first element in the footer will avoid the possibility of margin collapse - a space between divs */
+	padding: 10px 0; /* padding on this element will create space, just as the the margin would have, without the margin collapse issue */
+}
+
+/* Miscellaneous classes for reuse */
+.fltrt { /* this class can be used to float an element right in your page. The floated element must precede the element it should be next to on the page. */
+	float: right;
+	margin-left: 8px;
+}
+.fltlft { /* this class can be used to float an element left in your page */
+	float: left;
+	margin-right: 8px;
+}
+.clearfloat { /* this class should be placed on a div or break element and should be the final element before the close of a container that should fully contain a float */
+	clear:both;
+    height:0;
+    font-size: 1px;
+    line-height: 0px;
+}
+/* Map */
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0px;
+}
+
+#map1 {
+  width: 90%;
+  height: 800px;
+}
+
+/* Chart */
+
+#chart_div {
+  width: 90%;
+  height: 200px;
+
+}
+/* Directions*/
+#directionsDiv {
+    background-color: #EEEEEE;
+    font-family: Verdana, Arial, sans serif;
+    font-size: 11px;
+    width: 90%;
+}
+
+#directionsPanel {
+    background-color:#dddddd;
+    font-family: Verdana, Arial, sans serif;
+    font-size: 11px;
+    width: 100%;
+}
+
+#directionsTable {
+    background-color:#eeeeee;
+    font-family: Verdana, Arial, sans serif;
+    font-size: 11px;
+    width: 100%;
+}
+
+table.directions th {
+    background-color:#EEEEEE;
+    font-family: Verdana, Arial, sans serif;
+    font-size: 11px;
+}
+
+table.directions td {
+    background-color:#eeeeee;
+    font-family: Verdana, Arial, sans serif;
+    font-size: 11px;
+}
+
+img {
+    color: #000000;
+}
+
+/* Station Info Tooltip */
+#marker-tooltip, #stationToolTip {
+    display: none;
+    position:absolute;
+    background-color: #ffffff;
+    margin: 15px;
+}
+
+/*Info boxes*/
+.infobox {background-color: #fadab2;}
+
+/* Connections Table */
+#map1 div div div div .infobox .tg  {border:solid; }
+#map1 .infobox .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+#map1 .infobox .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+
+/* Loading animation*/
+/* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   speak for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+.spinner {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba( 255, 255, 255, .5 ) url('../graphics/ajax-loader.gif') 50% 50% no-repeat;
+
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;   
+}
+
+/* Anytime the body has the loading class, our
+   spinner element will be visible */
+body.loading .spinner {
+    display: block;
+}
+
+
+/* Sliders */
+#percRangeSlider {
+	width: 160px;
+	height: 30px;
+}
+
+table.demo_table td {
+    text-align: left;
+    vertical-align: top;
+    padding-right: 10px;
+}
+
+
+/* Directions Panel  */
+/*
+MAP DIRECTIONS
+*/
+.dir_leg {
+font-weight: bold; padding: 5px; background: #ee9b06; color: #fff;
+}
+
+.dir_start {
+font-weight: bold; padding: 5px; background: #E47D25; color: #fff;
+}
+
+.dir_end {
+font-weight: bold; padding: 5px; background: #C16417; color: #fff;
+}
+
+.dir_summary {
+padding: 5px 0;	
+}
+
+div.dir_summary > div.estimate:first-child {
+padding-top: 5px;	
+}
+
+.dir_td {
+     border-bottom: 1px solid silver;
+}
+
+.dir_row {
+font-size: 10px;
+padding-right: 2px;	
+}
+
+.dir_row_hidden {
+display: none;
+}
+
+.dir_sprite{
+display: block;
+}
+
+.warning {
+    color: red;
+    text-align: center;
+    padding: 5px;
+}
+
+.estimate {
+    color: blue;
+    text-align: left;
+}
+
+.estimate_hidden {
+display: none;
+}
+
+
+.turn-sharp-left{ background: url('../graphics/tt3.png') 0px 0px ; width: 19px;
+height: 17px;}
+.turn-sharp-right{ background: url('../graphics/tt3.png') 0px -583px ; width: 17px;
+height: 16px;}
+.turn-left{	background: url('../graphics/tt3.png') 0 -417px ;	width: 17px;
+height: 14px;}
+.turn-right{ background: url('../graphics/tt3.png') 0px -486px ; width: 17px;
+height: 13px;}
+.turn-slight-left{ background: url('../graphics/tt3.png') 0px -378px ; width: 19px;
+height: 16px;}
+.turn-slight-right{	background: url('../graphics/tt3.png') 0px -54px ; width: 19px;
+height: 15px;}
+.ramp-left{	background: url('../graphics/tt3.png') 0px -599px ; width: 17px;
+height: 15px;}
+.ramp-right{ background: url('../graphics/tt3.png') 0px -432px ; width: 17px;
+height: 16px;}
+.fork-left{	background: url('../graphics/tt3.png') 0px -550px ; width: 17px;
+height: 16px;}
+.fork-right{ background: url('../graphics/tt3.png') 0px -500px ; width: 17px;
+height: 16px;}
+.straight{ background: url('../graphics/tt3.png') 0px -535px ; width: 17px;
+height: 15px;}
+.merge{ background: url('../graphics/tt3.png') 0px -143px ; width: 17px;
+height: 16px;}
+.roundabout-left{ background: url('../graphics/tt3.png') 0px -197px ; width: 17px;
+height: 16px;}
+.roundabout-right{ background: url('../graphics/tt3.png') 0px -232px ; width: 17px;
+height: 16px;}
+
+/* tables */
+#stopsTable {
+    border-collapse: collapse;
+    margin: 5px;
+    padding: 2px;
+}
+
+#stopsTable, #stopsTable th, #stopsTable td{
+    border: 1px solid black;
+}
