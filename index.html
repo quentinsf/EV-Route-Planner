@@ -27,15 +27,15 @@
     <title>EV Route Planner</title>
     <!-- data-main attribute tells require.js to load
      scripts/main.js after require.js loads. -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
-    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-    <script src="scripts/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="//google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"></script>
+    <script type="text/javascript" src="//www.google.com/jsapi"></script>
+    <!-- <script src="scripts/jquery-2.1.1.min.js"></script> -->
     <script src="scripts/dhtmlxslider.js"></script>
     <script src="scripts/moment.js"></script>
     <script src="scripts/amplify.min.js"></script>
-    <script src="scripts/Modernizer.js"></script>
+    <script src="scripts/modernizr-custom.min.js"></script>
     <script src="scripts/map1.js"></script>
     <script src="objects/shared.js"></script>
     <link href="styles/main.css" rel="stylesheet" />
@@ -74,8 +74,8 @@
                 <h3>Route</h3>
                 <form id="routeForm">
                     <table align="<center></center>">
-                        <tr><td>From:</td><td><input id="from" type="text" value="Birmingham, uk" onkeypress="setStartLocationFromText(event);" /></td></tr>
-                        <tr><td>To:</td><td><input id="to" type="text" value="Newcastle" onkeypress="setEndLocationFromText(event);" /></td></tr>
+                        <tr><td>From:</td><td><input id="from" type="text" value="Cambridge, uk" onkeypress="setStartLocationFromText(event);" /></td></tr>
+                        <tr><td>To:</td><td><input id="to" type="text" value="Ambleside" onkeypress="setEndLocationFromText(event);" /></td></tr>
                         <tr><td colspan="2">Starting SOC%:<input id="startingSOCPerc" type="text" value="100" size="3" onkeypress="changeStartingSOCPerc(event);" onchange="    changeStartingSOCPerc(event);" /></td></tr>
                         <tr><td colspan="2">100% Range:<input id="range" type="text" value="70" size="3" onkeypress="changeRange(event);" onchange="changeRange(event);" />miles</td></tr>
                         <tr>
@@ -102,7 +102,6 @@
                         </tr>
                         <tr><td>&nbsp;</td><td><input id="resetRoute" type="button" value="Reset" onclick='processForm("resetRoute");' /></td></tr>
                         <tr><td>&nbsp;</td><td><input id="showOptions" type="button" value="Options" onclick='processForm("showOptions");' /></td></tr>
-                        <tr><td>&nbsp;</td><td><input id="autoRoute" type="button" value="Auto Route" onclick='return;' /><span style="font-size: 8pt;">(Coming Soon!)</span></td></tr>
                     </table>
                 </form>
                 <div id="directionsDiv">
